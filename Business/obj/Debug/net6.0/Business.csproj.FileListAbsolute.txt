@@ -10,3 +10,10 @@ C:\Development\CSharp\repos\BudgetController.Backend\Business\obj\Debug\net6.0\B
 C:\Development\CSharp\repos\BudgetController.Backend\Business\obj\Debug\net6.0\refint\Business.dll
 C:\Development\CSharp\repos\BudgetController.Backend\Business\obj\Debug\net6.0\Business.pdb
 C:\Development\CSharp\repos\BudgetController.Backend\Business\obj\Debug\net6.0\ref\Business.dll
+C:\Development\CSharp\repos\BudgetController.Backend\Business\bin\Debug\net6.0\Core.dll
+C:\Development\CSharp\repos\BudgetController.Backend\Business\bin\Debug\net6.0\DataAccess.dll
+C:\Development\CSharp\repos\BudgetController.Backend\Business\bin\Debug\net6.0\Entities.dll
+C:\Development\CSharp\repos\BudgetController.Backend\Business\bin\Debug\net6.0\DataAccess.pdb
+C:\Development\CSharp\repos\BudgetController.Backend\Business\bin\Debug\net6.0\Entities.pdb
+C:\Development\CSharp\repos\BudgetController.Backend\Business\bin\Debug\net6.0\Core.pdb
+C:\Development\CSharp\repos\BudgetController.Backend\Business\obj\Debug\net6.0\Business.csproj.CopyComplete
