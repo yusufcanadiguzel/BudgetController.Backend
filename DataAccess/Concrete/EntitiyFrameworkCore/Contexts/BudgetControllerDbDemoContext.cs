@@ -13,7 +13,7 @@ namespace DataAccess.Concrete.EntitiyFrameworkCore.Contexts
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(connectionString: @"Server=(localdb)MSSQLLocalDb;Database=BudgetControllerDbDemo;Trusted_Connection=True");
+            optionsBuilder.UseSqlServer(connectionString: @"Server=(localdb)\MSSQLLocalDb;Database=BudgetControllerDbDemo;Trusted_Connection=True");
         }
 
         public DbSet<Category>? Categories { get; set; }

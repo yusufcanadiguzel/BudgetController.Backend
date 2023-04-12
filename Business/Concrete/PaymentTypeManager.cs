@@ -1,4 +1,10 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Authorization.Autofac.Concrete;
+using Business.Constants.Concrete;
+using Business.Validation.FluentValidation;
+using Core.Aspects.Validation.Autofac;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -18,40 +24,54 @@ namespace Business.Concrete
             _paymentTypeDao = paymentTypeDao;
         }
 
-        public void Add(PaymentType paymentType)
+        [AfAuthorizationAspect(roles: "PaymentTypes.Add", Priority = 1)]
+        [AfValidationAspect(typeof(FvPaymentTypeValidator), Priority = 2)]
+        public IResult Add(PaymentType paymentType)
         {
             _paymentTypeDao.Add(paymentType);
+
+            return new SuccessResult(message: Messages.PaymentTypeAdded);
         }
 
-        public void Delete(PaymentType paymentType)
+        [AfAuthorizationAspect(roles: "PaymentTypes.Delete")]
+        public IResult Delete(PaymentType paymentType)
         {
             _paymentTypeDao.Delete(paymentType);
+
+            return new SuccessResult(message: Messages.PaymentTypeDeleted);
         }
 
-        public IList<PaymentType> GetAll()
+        [AfAuthorizationAspect(roles: "PaymentTypes.GetAll")]
+        public IDataResult<IList<PaymentType>> GetAll()
         {
             var result = _paymentTypeDao.GetAll();
 
-            return result;
+            return new SuccessDataResult<IList<PaymentType>>(data: result);
         }
 
-        public IList<PaymentType> GetAllByName(string name)
+        [AfAuthorizationAspect(roles: "PaymentTypes.GetAllByName")]
+        public IDataResult<IList<PaymentType>> GetAllByName(string name)
         {
             var result = _paymentTypeDao.GetAll(p => p.Name.ToLower().Contains(name.ToLower()));
 
-            return result;
+            return new SuccessDataResult<IList<PaymentType>>(data: result);
         }
 
-        public PaymentType GetById(int id)
+        [AfAuthorizationAspect(roles: "PaymentTypes.GetById")]
+        public IDataResult<PaymentType> GetById(int id)
         {
             var result = _paymentTypeDao.Get(p => p.Id ==  id);
 
-            return result;
+            return new SuccessDataResult<PaymentType>(data: result);
         }
 
-        public void Update(PaymentType paymentType)
+        [AfAuthorizationAspect(roles: "PaymentTypes.Update", Priority = 1)]
+        [AfValidationAspect(typeof(FvPaymentTypeValidator), Priority = 2)]
+        public IResult Update(PaymentType paymentType)
         {
             _paymentTypeDao.Update(paymentType);
+
+            return new SuccessResult(message: Messages.PaymentTypeUpdated);
         }
     }
 }

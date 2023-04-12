@@ -1,4 +1,10 @@
 ﻿using Business.Abstract;
+using Business.BusinessAspects.Authorization.Autofac.Concrete;
+using Business.Constants.Concrete;
+using Business.Validation.FluentValidation;
+using Core.Aspects.Validation.Autofac;
+using Core.Utilities.Results.Abstract;
+using Core.Utilities.Results.Concrete;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -18,31 +24,55 @@ namespace Business.Concrete
             _categoryDao = categoryDao;
         }
 
-        public void Add(Category category) => _categoryDao.Add(category);
+        [AfAuthorizationAspect(roles: "Categories.Add", Priority = 1)]
+        [AfValidationAspect(typeof(FvCategoryValidator), Priority = 2)]
+        public IResult Add(Category category)
+        {
+            _categoryDao.Add(category);
 
-        public void Delete(Category category) => _categoryDao.Delete(category);
+            return new SuccessResult(message: Messages.CategoryAdded);
+        }
 
-        public IList<Category> GetAll()
+        [AfAuthorizationAspect(roles: "Categories.Delete")]
+        public IResult Delete(Category category)
+        {
+            _categoryDao.Delete(category);
+
+            return new SuccessResult(message: Messages.CategoryDeleted);
+        }
+
+        [AfAuthorizationAspect(roles: "Categories.GetAll")]
+        public IDataResult<IList<Category>> GetAll()
         {
             var result = _categoryDao.GetAll();
 
-            return result;
+            return new SuccessDataResult<IList<Category>>(data: result);
         }
 
-        public IList<Category> GetAllByName(string name)
+        [AfAuthorizationAspect(roles: "Categories.GetAllByName")]
+        public IDataResult<IList<Category>> GetAllByName(string name)
         {
             var result = _categoryDao.GetAll(c => c.Name.ToLower().Contains(name.ToLower()));
 
-            return result;
+            return new SuccessDataResult<IList<Category>>(data: result);
         }
 
-        public Category GetById(int id)
+        [AfAuthorizationAspect(roles: "Categories.GetById")]
+        public IDataResult<Category> GetById(int id)
         {
             var result = _categoryDao.Get(c => c.Id == id);
 
-            return result;
+            return new SuccessDataResult<Category>(data: result);
         }
 
-        public void Update(Category category) => _categoryDao.Update(category);
+        [AfAuthorizationAspect(roles: "Categories.Update", Priority = 1)]
+        [AfValidationAspect(typeof(FvCategoryValidator), Priority = 2)]
+        public IResult Update(Category category)
+        {
+            _categoryDao.Update(category);
+
+            return new SuccessResult(message: Messages.CategoryUpdated);
+        }
+
     }
 }
